@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CityGuideAPI.DataAccess;
 using CityGuideAPI.Dtos;
+using CityGuideAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -26,6 +27,28 @@ namespace CityGuideAPI.Controllers
             var cities = _entityRepository.GetCities();
             var citiesToReturn = _mapper.Map<List<CityForListDto>>(cities); 
             return Ok(citiesToReturn);
+        }
+        [HttpGet("detail")]
+        public ActionResult GetCityById(int id)
+        {
+            var city = _entityRepository.GetCityById(id); ;
+            var cityToReturn = _mapper.Map<CityForDetailDto>(city);
+            return Ok(cityToReturn);
+        }
+
+        [HttpPost("add")]
+        public ActionResult Add([FromBody]City city)
+        {
+            _entityRepository.Add(city);
+            _entityRepository.SaveAll();
+            return Ok(city);
+        }
+
+        [HttpGet("photos")]
+        public ActionResult Photos(int cityId)
+        {
+            var photos = _entityRepository.GetPhotosByCityId(cityId);
+            return Ok();
         }
     }
 }
