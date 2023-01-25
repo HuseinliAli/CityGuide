@@ -1,4 +1,5 @@
 using CityGuideAPI.DataAccess;
+using CityGuideAPI.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,7 +34,8 @@ namespace CityGuideAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Appsettings : Token").Value);
+            var key = Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value);
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddDbContext<DatabaseContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -55,6 +57,7 @@ namespace CityGuideAPI
                 };
 
             });
+            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IEntityRepository, EntityRespository>();
         }
 
