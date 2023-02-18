@@ -5,6 +5,7 @@ using CityGuideAPI.Helpers;
 using CityGuideAPI.Models;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -14,7 +15,7 @@ using System.Security.Claims;
 
 namespace CityGuideAPI.Controllers
 {
-    [Route("api/[controller]/{cityId}/photos")]
+    [Route("api/[controller]/{userId}/photos")]
     [ApiController]
     public class PhotosController : ControllerBase
     {
@@ -32,8 +33,9 @@ namespace CityGuideAPI.Controllers
                                   _cloudinaryConfig.Value.ApiSecret);
             _cloudinary=new Cloudinary(account);
         }
-        [HttpPost]
-        public ActionResult AddPhotoForCity(int cityId, [FromBody] PhotoForCreationDto photoForCreationDto)
+        [Authorize]
+        [HttpPost("upload")]
+        public ActionResult AddPhotoForCity(int cityId, [FromForm] PhotoForCreationDto photoForCreationDto)
         {
             var city = _entityRepository.GetCityById(cityId);
             if (city == null)
@@ -90,5 +92,7 @@ namespace CityGuideAPI.Controllers
             var photo = _mapper.Map<PhotoForReturnDto>(photoFromDb);
             return Ok(photo);
         }
+
+
     }
 }

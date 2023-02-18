@@ -74,6 +74,5 @@ namespace CityGuideAPI.DataAccess
             return false;
         }
 
-
     }
 }

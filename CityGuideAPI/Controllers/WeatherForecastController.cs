@@ -20,20 +20,6 @@ namespace CityGuideAPI.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetTests()
-        {
-            var tests = await _context.Tests.ToListAsync();
-            return Ok(tests);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult> GetTest(int id)
-        {
-            var test = await _context.Tests.FirstOrDefaultAsync(t => t.Id == id);
-            return Ok(test);
-        }
-
-
+        
     }
 }

@@ -13,7 +13,6 @@ namespace CityGuideAPI.DataAccess
         {
 
         }
-        public virtual DbSet<Test> Tests { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
         public virtual DbSet<City> Cities { get; set; }

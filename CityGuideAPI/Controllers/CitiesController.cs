@@ -50,5 +50,14 @@ namespace CityGuideAPI.Controllers
             var photos = _entityRepository.GetPhotosByCityId(cityId);
             return Ok();
         }
+
+        [HttpPost("delete")]
+        public ActionResult Delete([FromBody]City city)
+        {
+            var name = city.Name;
+            _entityRepository.Delete(city);
+            _entityRepository.SaveAll();
+            return Ok("city is deleted from database");
+        }
     }
 }

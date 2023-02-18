@@ -73,6 +73,7 @@ namespace CityGuideAPI
 
             app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowCredentials());
 
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 
